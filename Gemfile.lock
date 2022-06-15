@@ -202,6 +202,7 @@ GEM
     zeitwerk (2.6.0)
 
 PLATFORMS
+  ruby
   x86_64-darwin-21
 
 DEPENDENCIES
@@ -227,4 +228,4 @@ RUBY VERSION
    ruby 2.6.9p207
 
 BUNDLED WITH
-   2.3.9
+   1.17.2
