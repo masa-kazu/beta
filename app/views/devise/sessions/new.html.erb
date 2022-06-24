@@ -3,6 +3,8 @@
     <h2 class="title">kanbanにサインイン</h2>
     <div class="text-center m-3">or</div>
     <div class="text-center"><%= render "devise/shared/links" %></div>
+    <div class="text-center m-3">or</div>
+    <div class="text-center"><p class="acountPage_link"><%= link_to 'ゲストログイン（閲覧用）', users_guest_sign_in_path, method: :post %></p></div>
     <%= form_with scope: resource, as: resource_name, url: session_path(resource_name), html: { class: "mt-5, new_user" }, local: true do |f| %>
       <div class="form-group">
         <%= f.label :email %><br />
