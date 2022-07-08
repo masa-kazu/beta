@@ -1,6 +1,9 @@
 import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import styled from "styled-components";
+import AddFood from "./AddFood";
+import FoodList from "./FoodList";
+import EditFood from "./EditFood";
 import "./App.css";
 
 const Nabvar = styled.nav`
@@ -54,6 +57,13 @@ function App() {
           </NavItem>
         </NavItems>
       </Nabvar>
+      <Wrapper>
+        <Switch>
+          <Route exact path="/foods" component={FoodList} />
+          <Route exact path="/foods/new" component={AddFood} />
+          <Route path="/foods/:id/edit" component={EditFood} />
+        </Switch>
+      </Wrapper>
     </>
   );
 }
