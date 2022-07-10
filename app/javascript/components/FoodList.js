@@ -20,7 +20,7 @@ const SearchForm = styled.input`
 `;
 
 const RemoveAllButton = styled.button`
-  width: 16%;
+  width: 20%;
   height: 40px;
   background: #f54242;
   border: none;
@@ -87,7 +87,48 @@ function FoodList() {
       });
   }, []);
 
-  return <div>FoodList</div>;
+  const removeAllFoods = () => {
+    const sure = window.confirm("Are you sure?");
+    if (sure) {
+      axios
+        .delete("/api/v1/foods/destroy_all")
+        .then((resp) => {
+          setFoods([]);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
+
+  const updateIsCompleted = (index, val) => {
+    var data = {
+      id: val.id,
+      name: val.name,
+      is_completed: !val.is_completed,
+    };
+    axios.patch(`/api/v1/foods/${val.id}`, data).then((resp) => {
+      const newFoods = [...foods];
+      newFoods[index].is_completed = resp.data.is_completed;
+      setFoods(newFoods);
+    });
+  };
+
+  return (
+    <>
+      <h1>Food List</h1>
+      <SearchAndButtton>
+        <SearchForm
+          type="text"
+          placeholder="Search food..."
+          onChange={(event) => {
+            setSearchName(event.target.value);
+          }}
+        />
+        <RemoveAllButton onClick={removeAllFoods}>Remove All</RemoveAllButton>
+      </SearchAndButtton>
+    </>
+  );
 }
 
 export default FoodList;
