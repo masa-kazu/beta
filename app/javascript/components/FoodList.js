@@ -32,10 +32,10 @@ const RemoveAllButton = styled.button`
   cursor: pointer;
 `;
 
-const TodoName = styled.span`
+const FoodName = styled.span`
   font-size: 27px;
-  ${({ is_completed }) =>
-    is_completed &&
+  ${({ complete }) =>
+    complete &&
     `
     opacity: 0.4;
   `}
@@ -104,12 +104,12 @@ function FoodList() {
   const updateIsCompleted = (index, val) => {
     var data = {
       id: val.id,
-      name: val.name,
-      is_completed: !val.is_completed,
+      content: val.content,
+      complete: !val.complete,
     };
     axios.patch(`/api/v1/foods/${val.id}`, data).then((resp) => {
       const newFoods = [...foods];
-      newFoods[index].is_completed = resp.data.is_completed;
+      newFoods[index].complete = resp.data.complete;
       setFoods(newFoods);
     });
   };
@@ -127,6 +127,44 @@ function FoodList() {
         />
         <RemoveAllButton onClick={removeAllFoods}>Remove All</RemoveAllButton>
       </SearchAndButtton>
+
+      <div>
+        {foods
+          .filter((val) => {
+            if (searchName === "") {
+              return val;
+            } else if (
+              val.content.toLowerCase().includes(searchName.toLowerCase())
+            ) {
+              return val;
+            }
+          })
+          .map((val, key) => {
+            return (
+              <Row key={key}>
+                {val.complete ? (
+                  <CheckedBox>
+                    <ImCheckboxChecked
+                      onClick={() => updateIsCompleted(key, val)}
+                    />
+                  </CheckedBox>
+                ) : (
+                  <UncheckedBox>
+                    <ImCheckboxUnchecked
+                      onClick={() => updateIsCompleted(key, val)}
+                    />
+                  </UncheckedBox>
+                )}
+                <FoodName complete={val.complete}>{val.content}</FoodName>
+                <Link to={"/foods/" + val.id + "/edit"}>
+                  <EditButton>
+                    <AiFillEdit />
+                  </EditButton>
+                </Link>
+              </Row>
+            );
+          })}
+      </div>
     </>
   );
 }
