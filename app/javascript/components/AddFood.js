@@ -67,7 +67,7 @@ function AddFood(props) {
 
   const saveFood = () => {
     var data = {
-      content: todo.content,
+      content: food.content,
     };
 
     axios
