@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-//import { toast } from "react-toastify";
-//import "react-toastify/dist/ReactToastify.css";
-//import { FiSend } from "react-icons/fi";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FiSend } from "react-icons/fi";
 
 const InputAndButton = styled.div`
   display: flex;
@@ -42,8 +42,72 @@ const Icon = styled.span`
   margin: 0 7px;
 `;
 
-function AddFood() {
-  return <div>AddFood</div>;
+toast.configure();
+
+function AddFood(props) {
+  const initialFoodState = {
+    id: null,
+    content: "",
+    complete: false,
+  };
+
+  const [food, setFood] = useState(initialFoodState);
+
+  const notify = () => {
+    toast.success("Food successfully created!", {
+      position: "bottom-center",
+      hideProgressBar: true,
+    });
+  };
+
+  const handleInputChange = (event) => {
+    const { content, value } = event.target;
+    setFood({ ...food, [content]: value });
+  };
+
+  const saveFood = () => {
+    var data = {
+      content: todo.content,
+    };
+
+    axios
+      .post("/api/v1/foods", data)
+      .then((resp) => {
+        setFood({
+          id: resp.data.id,
+          content: resp.data.content,
+          complete: resp.data.complete,
+        });
+        notify();
+        props.history.push("/foods");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  return (
+    <>
+      <h1>New Food</h1>
+      <InputAndButton>
+        <InputForName
+          type="text"
+          required
+          value={food.content}
+          onChange={handleInputChange}
+          name="content"
+        />
+        <Button
+          onClick={saveFood}
+          disabled={!food.content || /^\s*$/.test(food.content)}
+        >
+          <Icon>
+            <FiSend />
+          </Icon>
+        </Button>
+      </InputAndButton>
+    </>
+  );
 }
 
 export default AddFood;
