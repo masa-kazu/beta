@@ -11,7 +11,7 @@ const InputAndButton = styled.div`
   margin-top: 20px;
 `;
 
-const InputName = styled.input`
+const InputForName = styled.input`
   font-size: 20px;
   width: 100%;
   height: 40px;
@@ -95,7 +95,7 @@ function AddFood(props) {
           required
           value={food.content}
           onChange={handleInputChange}
-          name="content"
+          content="content"
         />
         <Button
           onClick={saveFood}
