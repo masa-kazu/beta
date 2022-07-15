@@ -61,8 +61,9 @@ function AddFood(props) {
   };
 
   const handleInputChange = (event) => {
-    const { content, value } = event.target;
-    setFood({ ...food, [content]: value });
+    const { name, value } = event.target;
+    setFood({ ...food, [name]: value });
+    console.log(value);
   };
 
   const saveFood = () => {
@@ -95,7 +96,7 @@ function AddFood(props) {
           required
           value={food.content}
           onChange={handleInputChange}
-          content="content"
+          name="content"
         />
         <Button
           onClick={saveFood}
